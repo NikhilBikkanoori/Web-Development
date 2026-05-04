@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+        const veggies=10;
+        const cloths=8;
+        console.log(veggies+cloths*2);
+        const h1=<h1>product cost: $ {veggies+cloths*2}</h1>
+      const container = document.querySelector('.js-container');
+      ReactDOM.createRoot(container).render(h1);
+    </script>
+  </body>
+</html>
