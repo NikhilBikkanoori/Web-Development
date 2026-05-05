@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+        function InputText(){
+            return(
+                <>
+                    <input placeholder="Send a message to Simplebot" size="30"/>
+                    <button>send</button>
+                </>
+            );
+        }
+        function Chat(props){
+            const type=props.type;
+            const message=props.message;
+            return(
+                <>
+                    <div>
+                        {type === "robot" && (
+                            <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
+                                <img src="robot.png" height="50px"/>
+                                <h2 style={{border:'2px solid',width:'300px',padding:'8px',borderRadius:'8px'}}>{message}</h2>
+                            </div>
+                        )}
+                            
+                        {type === "user" &&(
+                            <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
+                                <h2 style={{border:'2px solid',width:'300px',padding:'8px',borderRadius:'8px'}}>{message}</h2>
+                                <img src="user.png" height="50px"/>
+                            </div>
+                        )}
+                    </div>
+                </>
+            );
+        }
+        function App(){
+            return(
+                <>
+                    <InputText />
+                    <Chat type="user" message="Hello Simplebot"/>
+                    <Chat type="robot" message="Hello Sir!!"/>
+                </>
+            );
+        }
+      const container = document.querySelector('.js-container');
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>
