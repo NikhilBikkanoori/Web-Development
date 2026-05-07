@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      const container = document.querySelector('.js-container');
+      function ProductDetails({name,price,discount}){
+        return(
+            <>
+                <div style={{border:"5px solid #5C4F4A",padding:'30px',margin:'15px',borderRadius:'8px',width:'200px',backgroundColor:'#9ED3DC',height:'150px'}}>
+                    <p style={{fontSize:'20px',fontWeight:'bold'}}>{name}</p>
+                    {
+                        discount==="false" &&(
+                                <p style={{fontSize:'20px',fontWeight:'bold'}}>Price: ${price}</p>    
+                        )
+                    }
+                    {
+                        discount!=="false" &&(
+                            <>
+                            <del>
+                                <p style={{fontSize:'20px',fontWeight:'bold'}}>Price: ${price}</p>    
+                            </del>
+                            <p style={{fontSize:'20px',fontWeight:'bold'}}>DiscountPrice: ${discount}</p>
+                            </>
+                        )
+                    }
+                    <button style={{fontSize:'15px',fontWeight:'bold'}}>Add to Cart</button>
+                </div>
+            </>
+        );
+      }
+      function App(){
+        return(
+            <div style={{display:'flex',flexWrap:'wrap'}}>
+                <ProductDetails name="Watermelon" price="7:99" discount="false"/>
+                <ProductDetails name="Mango" price="12:99" discount="false"/>
+                <ProductDetails name="Banana" price="8:99" discount="false"/>
+                <ProductDetails name="Apple" price="10:90" discount="8:99"/>
+                <ProductDetails name="Grapes" price="5:99" discount="false"/>
+                <ProductDetails name="Pineapple" price="6:99" discount="false"/>
+                <ProductDetails name="Orange" price="4:99" discount="false"/>
+                <ProductDetails name="Promogranate" price="8:99" discount="false"/>
+
+            </div>    
+        );
+      }
+      const root=ReactDOM.createRoot(container);
+      root.render(<App />);
+    </script>
+  </body>
+</html>
