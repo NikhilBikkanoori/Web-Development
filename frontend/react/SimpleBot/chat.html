@@ -8,24 +8,71 @@
     <script src="https://unpkg.com/supersimpledev/react.js"></script>
     <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
     <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
     <script type="text/babel">
-        function InputText(){
+        function InputText({chatMessages,setchatMessages}){
+            const [value,setValue]=React.useState('');
+            function userInput(e){
+                setValue(e.target.value);
+            }
+            function submmission(event){
+                event.preventDefault();
+                // send(value); // send is not implemented here
+                sendMessage();
+                setValue('');
+            }
+            function sendMessage() {
+                  const newChatMessages = [
+                    ...chatMessages,
+                    {
+                    message: value,
+                    type: 'user',
+                    id: crypto.randomUUID()
+                    }
+                ];
+                // console.log(value);
+                setchatMessages(newChatMessages);
+                // const response = Chatbot.getResponse(value);
+                const newResponseMessages=[
+                    ...newChatMessages,
+                    {
+                        message:Chatbot.getResponse(value),
+                        type:'robot',
+                        id:crypto.randomUUID()
+                    }
+                ];
+                setchatMessages(newResponseMessages);
+            }
+            // console.log(Value);
             return(
                 <>
-                    <input placeholder="Send a message to Simplebot" size="30"/>
-                    <button>send</button>
+                    <form onSubmit={submmission}>
+                        <input value={value} placeholder="Send a message to Simplebot" size="30" onChange={userInput}/>
+                        <button onClick={submmission}>send</button>
+                    </form>
                 </>
             );
         }
+        
+    //     function send(){
+    //        chatMessages.push({
+    //            messgage:'test1',
+    //            user:'user',
+    //            id:crypto.random.UUID()
+    //        });
+    //        console.log(ChatMessages);
+    //    }
+        // console.log(chatMessages);
         function Chat(props){
             const type=props.type;
             const message=props.message;
+            // const key=props.key;
             return(
                 <>
                     <div>
                         {type === "robot" && (
                             <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
-                                <img src="robot.png" height="50px"/>
+                                <img src="graident.avif" height="70px"/>
                                 <h2 style={{border:'2px solid',width:'300px',padding:'8px',borderRadius:'8px'}}>{message}</h2>
                             </div>
                         )}
@@ -36,21 +83,121 @@
                                 <img src="user.png" height="50px"/>
                             </div>
                         )}
+                        {type==="admin"&&(
+                            <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
+                                <img src="graident.avif" height="70px"/>
+                                <h2 style={{border:'2px solid',width:'300px',padding:'8px',borderRadius:'8px'}}>{message}</h2>
+                            </div>
+                        )}
                     </div>
                 </>
             );
         }
+
+                                /*chatmessages*/
+        // // function chatMessages(){
+        //     const chatMessages=[{
+        //                 message: 'Hello simplebot',
+        //                 type:'user',
+        //                 id:'id1'
+        //             },{
+        //                 message:'Hello sir!!',
+        //                 type:'robot',
+        //                 id:'id2'
+        //             },{
+        //                 message:'can you give me todays date?',
+        //                 type:'user',
+        //                 id:'id3'
+        //             },{
+        //                 message:'3/6/26',
+        //                 type:'robot',
+        //                 id:'id4'
+        //             }
+        //         ];
+        // }
+        // const [ChatMessage,setChatMessages]=React.useState('');
+
+                                    /*ChatMessages map*/
+        function ChatMessage({chatMessages}){
+                
+                
+                // return chatMessages.map((q)=>(
+                //     // return(  
+                //         // <>    
+                //             <Chat 
+                //                 message={q.message}
+                //                 type={q.type}
+                //             />
+                //         // </>
+                //     // );
+                // ));
+
+                return (chatMessages.map((q)=>{
+                    return(
+                        // <>    
+                            <Chat 
+                                message={q.message}
+                                type={q.type}
+                                key={q.id}
+                            />
+                        // </>
+                    )
+        })
+            );
+                // return (cm);
+                // return (chatMessages);
+                
+        }
+
+                                /*Push Function ---- without use state*/
+    //         function send(value){
+    //        chatMessages.push({
+    //            message:value,
+    //            type:'user',
+    //            id:crypto.randomUUID()
+    //        }
+    //     );
+    //     ChatMessages();
+    //     root.render(<App/>)
+    //     //    console.log(chatMessages);
+    //    }
+        
         function App(){
+            const [chatMessages,setchatMessages]=React.useState([
+                {
+                    message:'Get Started!!!',
+                    type:'admin',
+                    id:'admin'
+                }
+            ])
+        //         [{
+        //   message: 'hello chatbot',
+        //   type: 'user',
+        //   id: 'id1'
+        // }, {
+        //   message: 'Hello! How can I help you?',
+        //   type: 'robot',
+        //   id: 'id2'
+        // }, {
+        //   message: 'can you get me todays date?',
+        //   type: 'user',
+        //   id: 'id3'
+        // }, {
+        //   message: 'Today is September 27',
+        //   type: 'robot',
+        //   id: 'id4'
+        // }]);
+            
             return(
                 <>
-                    <InputText />
-                    <Chat type="user" message="Hello Simplebot"/>
-                    <Chat type="robot" message="Hello Sir!!"/>
+                    <InputText chatMessages={chatMessages} setchatMessages={setchatMessages}/>
+                    <ChatMessage chatMessages={chatMessages}/>
                 </>
             );
         }
       const container = document.querySelector('.js-container');
-      ReactDOM.createRoot(container).render(<App />);
+      const root=ReactDOM.createRoot(container);
+      root.render(<App/>)
     </script>
   </body>
-</html>
+</html> 
