@@ -12,6 +12,7 @@
     <script type="text/babel">
         function InputText({chatMessages,setchatMessages}){
             const [value,setValue]=React.useState('');
+            // const [Loading,setLoading]=React.useState('false');
             function userInput(e){
                 setValue(e.target.value);
             }
@@ -21,7 +22,17 @@
                 sendMessage();
                 setValue('');
             }
-            function sendMessage() {
+            function callOut(e){
+                if(e.key==="Escape"){
+                    // setchatMessages('');
+                    setValue('');
+                }
+            }
+            <div>
+                
+            </div>
+            async function sendMessage() {
+            // function sendMessage() {
                   const newChatMessages = [
                     ...chatMessages,
                     {
@@ -36,18 +47,30 @@
                 const newResponseMessages=[
                     ...newChatMessages,
                     {
-                        message:Chatbot.getResponse(value),
+                        // message:Chatbot.getResponse(value),
+                        message:"Loading....",
                         type:'robot',
                         id:crypto.randomUUID()
                     }
                 ];
                 setchatMessages(newResponseMessages);
+
+                const newResponseMessages1=[
+                    ...newChatMessages,
+                    {
+                        // message:Chatbot.getResponse(value),
+                        message:await Chatbot.getResponseAsync(value),
+                        type:'robot',
+                        id:crypto.randomUUID()
+                    }
+                ];
+                setchatMessages(newResponseMessages1);
             }
             // console.log(Value);
             return(
                 <>
                     <form onSubmit={submmission}>
-                        <input value={value} placeholder="Send a message to Simplebot" size="30" onChange={userInput}/>
+                        <input value={value} placeholder="Send a message to Simplebot" size="30" onChange={userInput} onKeyDown={callOut}/>
                         <button onClick={submmission}>send</button>
                     </form>
                 </>
@@ -170,6 +193,14 @@
                     id:'admin'
                 }
             ])
+            const chatScroll=React.useRef(null);
+            React.useEffect(()=>{
+                const scroll=chatScroll.current;
+                if(scroll){
+                    scroll.scrollTop=scroll.scrollHeight;
+                }
+
+            },[chatMessages])
         //         [{
         //   message: 'hello chatbot',
         //   type: 'user',
@@ -191,7 +222,9 @@
             return(
                 <>
                     <InputText chatMessages={chatMessages} setchatMessages={setchatMessages}/>
-                    <ChatMessage chatMessages={chatMessages}/>
+                    <div className="chatMessages" ref={chatScroll} style={{height:'100vh',overflowY:'auto'}}>    
+                        <ChatMessage chatMessages={chatMessages}/>
+                    </div>
                 </>
             );
         }

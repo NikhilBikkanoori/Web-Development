@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+    <script src="https://unpkg.com/supersimpledev/dayjs.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+        const container = document.querySelector('.js-container');
+
+                        /*Without useState*/
+        // let count=0;
+        // function Buttons(){
+        //     return(
+        //     <button onClick={()=>{
+        //         count=count+1;
+        //         console.log(count);
+        //         root.render(<Buttons/>);
+        //     }}>click counter:{count}</button>);
+        // }
+                        /*With useState*/
+        function Text(){
+            const [words,setWords]=React.useState('');
+            function change(e){
+                setWords(e.target.value);   
+            }
+            function clicked(){
+                setWords('');
+
+            }
+            function Example(){
+                setWords('Nikhil Bikkanoori');
+            }
+            return(
+                <>
+                    <input placeholder="Enter something" onChange={change} value={words}/>
+                    <p>Hello {words}</p> 
+                    <button onClick={clicked}>reset</button>
+                    <button onClick={Example}>example</button>
+                </>
+            );
+        }
+        function App(){
+            return(
+                <>
+                    <Text/>
+                </>
+            );
+        }
+        const root=ReactDOM.createRoot(container);
+        root.render(<App/>);
+    </script>
+  </body>
+</html>
