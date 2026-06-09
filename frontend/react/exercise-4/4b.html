@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+    <Style>
+        body{
+            background-color: black;
+        }
+    </Style>
+  </head>
+  <body>
+    <div class="js-container"></div>
+    <script src="https://unpkg.com/supersimpledev/dayjs.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+        const container = document.querySelector('.js-container');
+        let val="green";
+        function Hooks(){
+            const [State,setState]=React.useState(true);
+            function onclick(){
+                setState(!State);
+                if(State){
+                    val="red"
+                }else{
+                    val="green"
+                }
+            }
+            // if(State){
+            //     val='On'
+            // }else{
+            //     val='Off'
+            // }
+            return(
+                <button style={{backgroundColor:val,fontSize:"60px",border:"none",borderRadius:"10px",color:"white"}} onClick={onclick} >{State?"On":"Off"}</button>
+            );
+        }
+        function App(){
+            return(
+                <Hooks/>
+            );
+        }
+        const root=ReactDOM.createRoot(container);
+        root.render(<App/>)
+    </script>
+  </body>
+</html>

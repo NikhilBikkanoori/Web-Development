@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+    <style>
+        button{
+            background-color:deepskyblue;
+            color: beige;
+            border: none;
+            border-radius: 3px;
+            padding: 8px;
+            margin:4px;
+            width:65px;
+        }
+        input{
+            /* color: beige; */
+            border-color: black;
+            border-radius: 3px;
+            padding: 8px;
+            margin:4px;
+        }
+        .Show{
+            background-color:rgb(79, 8, 107);
+            color: beige;
+            border: none;
+            border-radius: 3px;
+            padding: 8px;
+            margin:4px;
+            width:65px; 
+        }
+    </style>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      const container = document.querySelector('.js-container');
+      function LoginForm(){
+        const [Show,setShow]=React.useState(false);
+        return(
+            <>
+            <input type="email" placeholder="Email"/>
+            <br/>
+            <input type={(!Show?"password":"text")} placeholder="Password"/>
+            <button className="Show" onClick={()=>{setShow(prev=>!prev)}}>{Show?"hide":"show"}</button>
+            <br/>
+            <button onClick={()=>{console.log("Hello")}}>Login</button>
+            <button>Sign Up</button>
+            </>
+        );
+      }
+      function App(){
+        return(
+            <LoginForm />
+        );
+      }
+      const root=ReactDOM.createRoot(container);
+      root.render(<App />);
+    </script>
+  </body>
+</html> 
